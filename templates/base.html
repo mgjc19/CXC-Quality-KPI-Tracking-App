@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PS-Delivery Quality Metrics Tracker{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg"
+             alt="Cisco" class="cisco-logo">
+    </div>
+
+    <nav class="sidebar-nav">
+        <a href="{{ url_for('dashboard') }}"
+           class="sidebar-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+            <i class="fas fa-chart-line"></i> Dashboard
+        </a>
+
+        <div class="sidebar-section">
+            <button class="sidebar-section-toggle" onclick="toggleProjectsMenu()">
+                <span><i class="fas fa-folder-open"></i> Projects</span>
+                <i class="fas fa-chevron-down sidebar-chevron" id="projectsChevron"></i>
+            </button>
+            <div class="sidebar-submenu" id="projectsSubmenu">
+                {% for pt in project_types %}
+                <a href="{{ url_for('projects', type=pt) }}"
+                   class="sidebar-sublink {% if request.endpoint == 'projects' and request.args.get('type') == pt %}active{% endif %}">
+                    {{ pt }}
+                    <span class="sidebar-count">{{ type_project_counts.get(pt, 0) }}</span>
+                </a>
+                {% endfor %}
+                <a href="{{ url_for('projects') }}"
+                   class="sidebar-sublink sidebar-sublink-all {% if request.endpoint == 'projects' and not request.args.get('type') %}active{% endif %}">
+                    <i class="fas fa-list"></i> View All
+                </a>
+            </div>
+        </div>
+
+        <a href="{{ url_for('reference') }}"
+           class="sidebar-link {% if request.endpoint == 'reference' %}active{% endif %}">
+            <i class="fas fa-book"></i> References
+        </a>
+    </nav>
+</aside>
+
+<div class="main-wrapper">
+    <header class="top-bar">
+        <h1 class="top-bar-title">PS-Delivery Quality Metrics Tracker</h1>
+    </header>
+
+    <main class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-container">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">
+                <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
+                {{ message }}
+                <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

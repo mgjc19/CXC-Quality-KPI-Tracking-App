@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if project else 'New' }} Project — PS-Delivery Quality Metrics Tracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-{{ 'edit' if project else 'plus-circle' }}"></i> {{ 'Edit' if project else 'Create New' }} Project</h2>
+</div>
+
+<form method="POST" class="card form-card" id="projectForm">
+    <div class="form-section">
+        <h3 class="form-section-title">Project Information</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="name" class="label">Project Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" class="input" required
+                    value="{{ project.name if project else '' }}" placeholder="e.g., ACME Network Upgrade">
+            </div>
+            <div class="form-group">
+                <label for="customer_name" class="label">Customer Name <span class="required">*</span></label>
+                <input type="text" id="customer_name" name="customer_name" class="input" required
+                    value="{{ project.customer_name if project else '' }}" placeholder="e.g., ACME Corp">
+            </div>
+            <div class="form-group">
+                <label for="project_type" class="label">Project Type <span class="required">*</span></label>
+                <select id="project_type" name="project_type" class="input" required {% if project %}disabled{% endif %}>
+                    <option value="">Select project type...</option>
+                    {% for pt in project_types %}
+                    <option value="{{ pt }}" {% if project and project.project_type == pt %}selected{% endif %}>{{ pt }}</option>
+                    {% endfor %}
+                </select>
+                {% if project %}
+                <input type="hidden" name="project_type" value="{{ project.project_type }}">
+                <p class="form-hint">Project type cannot be changed after creation.</p>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="project_manager" class="label">Project Manager <span class="required">*</span></label>
+                <input type="text" id="project_manager" name="project_manager" class="input" required
+                    value="{{ project.project_manager if project else '' }}">
+            </div>
+            <div class="form-group">
+                <label for="technology" class="label">Technology</label>
+                <input type="text" id="technology" name="technology" class="input"
+                    value="{{ project.technology if project else '' }}" placeholder="e.g., Cisco SD-WAN, Meraki">
+            </div>
+            <div class="form-group">
+                <label for="status" class="label">Status</label>
+                <select id="status" name="status" class="input">
+                    {% for s in ['Active', 'Completed', 'On Hold'] %}
+                    <option value="{{ s }}" {% if project and project.status == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group form-group-full" style="margin-top:12px;">
+            <label for="scope" class="label">Project Overall Scope</label>
+            <textarea id="scope" name="scope" class="input textarea" rows="4"
+                placeholder="Describe the overall project scope, objectives, and key deliverables...">{{ project.scope if project else '' }}</textarea>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-section-header">
+            <h3 class="form-section-title">Engineers</h3>
+            <button type="button" class="btn btn-sm btn-outline" id="addEngineerBtn"><i class="fas fa-plus"></i> Add Engineer</button>
+        </div>
+        <div id="engineersList">
+            {% if project and project.engineers %}
+            {% for eng in project.engineers %}
+            <div class="engineer-row">
+                <div class="form-group"><input type="text" name="eng_name[]" class="input" value="{{ eng.name }}" placeholder="Engineer name"></div>
+                <div class="form-group"><input type="text" name="eng_designation[]" class="input" value="{{ eng.designation }}" placeholder="Designation"></div>
+                <button type="button" class="btn btn-icon btn-danger-ghost" onclick="this.closest('.engineer-row').remove()"><i class="fas fa-trash"></i></button>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="engineer-row">
+                <div class="form-group"><input type="text" name="eng_name[]" class="input" placeholder="Engineer name"></div>
+                <div class="form-group"><input type="text" name="eng_designation[]" class="input" placeholder="Designation (e.g., Senior Network Engineer)"></div>
+                <button type="button" class="btn btn-icon btn-danger-ghost" onclick="this.closest('.engineer-row').remove()"><i class="fas fa-trash"></i></button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a href="{{ url_for('project_detail', project_id=project.id) if project else url_for('projects') }}" class="btn btn-ghost">Cancel</a>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ 'Save Changes' if project else 'Create Project' }}</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('addEngineerBtn').addEventListener('click', function() {
+    var row = document.createElement('div');
+    row.className = 'engineer-row';
+    row.innerHTML = '<div class="form-group"><input type="text" name="eng_name[]" class="input" placeholder="Engineer name"></div>' +
+        '<div class="form-group"><input type="text" name="eng_designation[]" class="input" placeholder="Designation"></div>' +
+        '<button type="button" class="btn btn-icon btn-danger-ghost" onclick="this.closest(\'.engineer-row\').remove()"><i class="fas fa-trash"></i></button>';
+    document.getElementById('engineersList').appendChild(row);
+});
+</script>
+{% endblock %}

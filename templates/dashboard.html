@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — PS-Delivery Quality Metrics Tracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-chart-line"></i> Dashboard</h2>
+    <a href="{{ url_for('new_project') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> New Project
+    </a>
+</div>
+
+<div class="summary-cards">
+    <div class="card summary-card">
+        <div class="summary-icon si-blue"><i class="fas fa-project-diagram"></i></div>
+        <div class="summary-info">
+            <span class="summary-value">{{ projects | length }}</span>
+            <span class="summary-label">Total Projects</span>
+        </div>
+    </div>
+    <div class="card summary-card">
+        <div class="summary-icon si-green"><i class="fas fa-check-circle"></i></div>
+        <div class="summary-info">
+            <span class="summary-value">{{ status_counts.get('Active', 0) }}</span>
+            <span class="summary-label">Active</span>
+        </div>
+    </div>
+    <div class="card summary-card">
+        <div class="summary-icon si-teal"><i class="fas fa-flag-checkered"></i></div>
+        <div class="summary-info">
+            <span class="summary-value">{{ status_counts.get('Completed', 0) }}</span>
+            <span class="summary-label">Completed</span>
+        </div>
+    </div>
+    <div class="card summary-card">
+        <div class="summary-icon si-amber"><i class="fas fa-pause-circle"></i></div>
+        <div class="summary-info">
+            <span class="summary-value">{{ status_counts.get('On Hold', 0) }}</span>
+            <span class="summary-label">On Hold</span>
+        </div>
+    </div>
+</div>
+
+<div class="chart-grid">
+    <div class="card chart-card">
+        <h3 class="card-title">Projects by Type</h3>
+        <div class="chart-container"><canvas id="typeChart"></canvas></div>
+    </div>
+    <div class="card chart-card">
+        <h3 class="card-title">Projects by Status</h3>
+        <div class="chart-container chart-container-sm"><canvas id="statusChart"></canvas></div>
+    </div>
+    <div class="card chart-card chart-card-wide">
+        <h3 class="card-title">Stage-wise Completion (Active Projects Average)</h3>
+        <div class="chart-container"><canvas id="stageChart"></canvas></div>
+    </div>
+</div>
+
+{% if project_summaries %}
+<div class="card">
+    <h3 class="card-title">All Projects</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Customer</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Metrics Tracked</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ps in project_summaries %}
+                <tr>
+                    <td class="fw-500">{{ ps.project.name }}</td>
+                    <td>{{ ps.project.customer_name }}</td>
+                    <td><span class="badge badge-type">{{ ps.project.project_type }}</span></td>
+                    <td><span class="badge badge-{{ ps.project.status | lower | replace(' ', '-') }}">{{ ps.project.status }}</span></td>
+                    <td>
+                        <div class="progress-inline">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: {{ ps.pct }}%"></div>
+                            </div>
+                            <span class="progress-label">{{ ps.filled }}/{{ ps.total }}</span>
+                        </div>
+                    </td>
+                    <td><a href="{{ url_for('project_detail', project_id=ps.project.id) }}" class="btn btn-sm btn-outline">View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="card empty-state">
+    <i class="fas fa-folder-plus"></i>
+    <h3>No projects yet</h3>
+    <p>Create your first project to start tracking delivery quality metrics.</p>
+    <a href="{{ url_for('new_project') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Create Project</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
