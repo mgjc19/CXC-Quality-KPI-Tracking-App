@@ -1,6 +1,8 @@
 """
 Metrics and KPI definitions sourced from PSTG Quality metrics.xlsx.
 Each project type maps to an ordered list of (stage_name, [metric_dicts]).
+
+Last synced: 2026-04-29
 """
 
 PROJECT_TYPES = [
@@ -33,27 +35,33 @@ _MATURED_PDI = [
     ]),
     ("Design", [
         {
-            "kpi": "Requirement to Solution Gap Assessment Performed",
-            "kpi_detail": "Whether a requirement-to-solution gap assessment has been performed.",
-            "metric": "Yes/No (No is Risk as this would have an impact on final signoff)",
+            "kpi": "Available Reference Architecture Used for Proposed Solution",
+            "kpi_detail": "Whether an available reference architecture was used for the proposed solution.",
+            "metric": "Yes/No (No will reduce efficiency as will need more efforts being non-standard deliverable)",
             "input_type": "yes_no",
         },
         {
             "kpi": "Workaround Coverage of Identified Limitations/Feature Gaps",
-            "kpi_detail": "Applicable for 3rd Party to Cisco migrations.",
+            "kpi_detail": "Coverage of workarounds for identified feature limitations/gaps.",
             "metric": "Workaround Coverage (%) = (Number of identified limitations with defined workaround / Total known limitations) × 100",
             "input_type": "percentage",
         },
         {
-            "kpi": "Like-for-Like Feature Parity Assessment Performed",
-            "kpi_detail": "Applicable for 3rd Party to Cisco migrations.",
-            "metric": "Yes/No (No is a risk unless agreed with customer on overall project acceptance)",
+            "kpi": "Digitized Delivery (as-a-code) Assessment Done",
+            "kpi_detail": "Whether an assessment for digitized delivery (infrastructure/config as code) has been completed.",
+            "metric": "Yes/No",
             "input_type": "yes_no",
         },
         {
-            "kpi": "Adherence to Customer Approved Templates",
-            "kpi_detail": "Rate of adherence to standard customer approved templates.",
-            "metric": "(Number of deliverables using Customer Approved Templates / Total deliverables) × 100%",
+            "kpi": "Projected Automation Efficiency",
+            "kpi_detail": "Projected efficiency gains from automation.",
+            "metric": "Projected hours saving / total number of hours scoped",
+            "input_type": "percentage",
+        },
+        {
+            "kpi": "Adherence to Standard Design Templates",
+            "kpi_detail": "Rate of adherence to standard design templates.",
+            "metric": "(Number of deliverables using standard design templates / Total deliverables) × 100%",
             "input_type": "percentage",
         },
         {
@@ -193,9 +201,15 @@ _MATURED_PDI = [
     ("Overall Project", [
         {
             "kpi": "Escalations Count",
-            "kpi_detail": "All escalations to follow with RCA + Lessons Learnt.",
+            "kpi_detail": "All escalations to follow with RCA.",
             "metric": "# Number of escalations reported",
             "input_type": "count",
+        },
+        {
+            "kpi": "Risk & Lessons Learnt Register",
+            "kpi_detail": "Whether a Risk & Lessons Learnt register is maintained.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
         },
         {
             "kpi": "CSAT Score",
@@ -208,6 +222,12 @@ _MATURED_PDI = [
             "kpi_detail": "Whether the project adhered to the agreed T-schedules.",
             "metric": "T-Schedule adherence = Yes/No (No is an impact to overall project, needs to be captured as lessons learnt)",
             "input_type": "yes_no",
+        },
+        {
+            "kpi": "Achieved Automation Efficiency",
+            "kpi_detail": "Actual automation efficiency achieved during the project.",
+            "metric": "Delivered Hours / Total hours scoped",
+            "input_type": "percentage",
         },
     ]),
 ]
@@ -246,30 +266,30 @@ _EMERGING_PDI = [
             "metric": "Handover Complete index = (Number of handover components received / total number of applicable components) × 100",
             "input_type": "percentage",
         },
+        {
+            "kpi": "Requirement to Solution Gap Assessment Performed (Features)",
+            "kpi_detail": "Whether a requirement-to-solution gap assessment has been performed for features.",
+            "metric": "Yes/No (No is Risk)",
+            "input_type": "yes_no",
+        },
     ]),
     ("Design", [
         {
-            "kpi": "Requirement to Solution Gap Assessment Performed",
-            "kpi_detail": "Whether a requirement-to-solution gap assessment has been performed.",
-            "metric": "Yes/No (No is Risk)",
+            "kpi": "Feature Limitations Addressable via Workaround",
+            "kpi_detail": "Number of feature limitations that can be addressed using workarounds.",
+            "metric": "# Number",
+            "input_type": "count",
+        },
+        {
+            "kpi": "BU Commitment to Address Feature Gaps Within Project Timelines",
+            "kpi_detail": "Whether the BU has committed to addressing feature gaps within project timelines.",
+            "metric": "Yes/No/Work In Progress",
             "input_type": "yes_no",
         },
         {
-            "kpi": "Workaround Coverage of Identified Limitations",
-            "kpi_detail": "Coverage of workarounds for identified feature limitations/gaps.",
-            "metric": "Workaround Coverage (%) = (Number of identified limitations with defined workaround / Total known limitations) × 100",
-            "input_type": "percentage",
-        },
-        {
-            "kpi": "Unresolvable Constraints Highlighted & Customer Sign-off",
-            "kpi_detail": "Whether unresolvable constraints have been highlighted and customer sign-off secured.",
-            "metric": "Yes/No (No is Risk)",
-            "input_type": "yes_no",
-        },
-        {
-            "kpi": "Adherence to Customer Approved Templates",
-            "kpi_detail": "Rate of adherence to standard customer approved templates.",
-            "metric": "(Number of deliverables using Customer Approved Templates / Total deliverables) × 100%",
+            "kpi": "Adherence to Customer Agreed Template",
+            "kpi_detail": "Rate of adherence to customer agreed templates.",
+            "metric": "(Number of deliverables using customer agreed template / Total deliverables) × 100%",
             "input_type": "percentage",
         },
         {
@@ -382,7 +402,7 @@ _EMERGING_PDI = [
             "input_type": "percentage",
         },
         {
-            "kpi": "Passing Rate of Test Cases",
+            "kpi": "Passing Rate of Test Cases Post Implementation",
             "kpi_detail": "Post-implementation test case pass rate.",
             "metric": "(Number of test cases passed / Total number of test cases) × 100%",
             "input_type": "percentage",
@@ -401,13 +421,25 @@ _EMERGING_PDI = [
             "metric": "Yes/No",
             "input_type": "yes_no",
         },
+        {
+            "kpi": "Day 2 Handover (LCS/CMS etc if Applicable)",
+            "kpi_detail": "Whether Day 2 handover to LCS/CMS or equivalent team has been completed, if applicable.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
+        },
     ]),
     ("Overall Project", [
         {
             "kpi": "Escalations Count",
-            "kpi_detail": "All escalations to follow with RCA + Lessons Learnt.",
+            "kpi_detail": "All escalations to follow with RCA.",
             "metric": "# Number of escalations reported",
             "input_type": "count",
+        },
+        {
+            "kpi": "Risk & Lessons Learnt Register",
+            "kpi_detail": "Whether a Risk & Lessons Learnt register is maintained.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
         },
         {
             "kpi": "CSAT Score",
@@ -458,8 +490,17 @@ _BF_TRANSFORMATION = [
             "input_type": "yes_no",
         },
         {
-            "kpi": "Customer Ack & Sign-off on CSA Analysis Design",
-            "kpi_detail": "Customer acknowledgment and sign-off on the Current State Architecture (CSA) analysis design as per T-schedule. Any deviation directly impacts subsequent phases (HLD/LLD, implementation) and overall project health.",
+            "kpi": "CSA & FSA Customer Sign-off",
+            "kpi_detail": (
+                "CSA (Current State Architecture):\n"
+                "Customer has reviewed, acknowledged, and signed off on the Current State Architecture (CSA) "
+                "with confirmed understanding from all relevant stakeholders, ensuring no unresolved assumptions "
+                "or open items remain — completed as per the baseline schedule.\n\n"
+                "FSA (Future State Architecture):\n"
+                "Customer has reviewed, acknowledged, and signed off on the Future State Architecture (FSA) "
+                "with confirmed alignment across technical and business stakeholders, ensuring the proposed design "
+                "is fully understood, agreed upon, and free of unresolved dependencies — completed as per the baseline schedule."
+            ),
             "metric": "Yes — Positive, aligned to project timelines / No — Risk to project timelines",
             "input_type": "yes_no",
         },
@@ -573,7 +614,7 @@ _BF_TRANSFORMATION = [
             "input_type": "number",
         },
     ]),
-    ("Implementation, Migration & Testing", [
+    ("Implementation & Migration", [
         {
             "kpi": "Documented CAB/Customer Approval Compliance Rate",
             "kpi_detail": "Compliance rate of documented CAB/customer approval prior to migration.",
@@ -646,9 +687,15 @@ _BF_TRANSFORMATION = [
     ("Overall Project", [
         {
             "kpi": "Escalations Count",
-            "kpi_detail": "All escalations to follow with RCA + Lessons Learnt.",
+            "kpi_detail": "All escalations to follow with RCA.",
             "metric": "# Number of escalations reported",
             "input_type": "count",
+        },
+        {
+            "kpi": "Risk & Lessons Learnt Register",
+            "kpi_detail": "Whether a Risk & Lessons Learnt register is maintained.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
         },
         {
             "kpi": "CSAT Score",
@@ -691,6 +738,18 @@ _MIGRATION = [
             "kpi_detail": "Whether the T-Schedule has been agreed upon.",
             "metric": "T-Schedule agreement = Yes/No (No is a risk)",
             "input_type": "yes_no",
+        },
+        {
+            "kpi": "Digitized Delivery (as-a-code) Assessment Done",
+            "kpi_detail": "Whether an assessment for digitized delivery (infrastructure/config as code) has been completed.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
+        },
+        {
+            "kpi": "Projected Automation Efficiency",
+            "kpi_detail": "Projected efficiency gains from automation.",
+            "metric": "Projected hours saving / total number of hours scoped",
+            "input_type": "percentage",
         },
         {
             "kpi": "Like-for-Like Feature Parity Assessment",
@@ -782,9 +841,15 @@ _MIGRATION = [
     ("Overall Project", [
         {
             "kpi": "Escalations Count",
-            "kpi_detail": "All escalations to follow with RCA + Lessons Learnt.",
+            "kpi_detail": "All escalations to follow with RCA.",
             "metric": "# Number of escalations reported",
             "input_type": "count",
+        },
+        {
+            "kpi": "Risk & Lessons Learnt Register",
+            "kpi_detail": "Whether a Risk & Lessons Learnt register is maintained.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
         },
         {
             "kpi": "CSAT Score",
@@ -793,10 +858,10 @@ _MIGRATION = [
             "input_type": "score",
         },
         {
-            "kpi": "Migration Success Rate (1st Time Right)",
-            "kpi_detail": "Overall first-time-right migration success rate.",
-            "metric": "(Number of successful migrations on 1st attempt / Total migrations) × 100%",
-            "input_type": "percentage",
+            "kpi": "Adherence to Agreed T-Schedules",
+            "kpi_detail": "Whether the project adhered to the agreed T-schedules.",
+            "metric": "T-Schedule adherence = Yes/No (No is an impact to overall project, needs to be captured as lessons learnt)",
+            "input_type": "yes_no",
         },
     ]),
 ]
@@ -820,8 +885,26 @@ _UPGRADE = [
             "metric": "Handover Complete index = (Number of handover components completed / total number of handover components) × 100 — SLA >=98%",
             "input_type": "percentage",
         },
+        {
+            "kpi": "Compatibility Check/Dependencies Reviewed",
+            "kpi_detail": "Whether compatibility checks and dependencies have been reviewed and shared with customer.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
+        },
+        {
+            "kpi": "Software & Hardware Compatibility/Interdependency",
+            "kpi_detail": "Whether software and hardware compatibility and interdependency checks have been performed.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
+        },
+        {
+            "kpi": "Integration/Third Party Dependencies",
+            "kpi_detail": "Whether integration and third-party dependencies have been identified and addressed.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
+        },
     ]),
-    ("Upgrade Planning", [
+    ("Upgrade Strategy", [
         {
             "kpi": "Bug Scrub Report Review — Account SME",
             "kpi_detail": "Whether the bug scrub report has been reviewed by the account SME.",
@@ -841,9 +924,9 @@ _UPGRADE = [
             "input_type": "yes_no",
         },
         {
-            "kpi": "MOP Internal Peer Review Compliance Rate",
+            "kpi": "Upgrade Strategy Completeness Checklist",
             "kpi_detail": (
-                "Items in MOP peer review checklist:\n"
+                "Checklist items:\n"
                 "1. Upgrade sequence and plan developed\n"
                 "2. Rollback strategy (Backup and Restore)\n"
                 "3. Communication plan\n"
@@ -851,9 +934,16 @@ _UPGRADE = [
                 "5. Change management plan\n"
                 "6. Environment readiness\n"
                 "7. Test plan readiness\n"
-                "8. Integration/Third party dependencies (pre-requisites called out)"
+                "8. Pre checks and Post Checks\n"
+                "9. Integration/Third party dependencies (pre-requisites called out)"
             ),
-            "metric": "(Number of deliverables/MOPs peer reviewed and approved internally / Total deliverables) × 100% — SLA =100%",
+            "metric": "(Number of deliverables/Checklist peer reviewed and approved internally / Total deliverables) × 100% — SLA =100%",
+            "input_type": "percentage",
+        },
+        {
+            "kpi": "Upgrade MOP Template",
+            "kpi_detail": "Whether the Upgrade MOP template has been peer reviewed and approved.",
+            "metric": "(Number of deliverables/MOP peer reviewed and approved internally / Total deliverables) × 100% — SLA =100%",
             "input_type": "percentage",
         },
         {
@@ -887,13 +977,27 @@ _UPGRADE = [
             "input_type": "number",
         },
         {
-            "kpi": "Compatibility Check/Dependencies Reviewed",
-            "kpi_detail": "Whether compatibility checks and dependencies have been reviewed and shared with customer.",
+            "kpi": "Proactive TAC/BU Alignment",
+            "kpi_detail": "Whether proactive alignment with TAC/BU has been established.",
             "metric": "Yes/No",
             "input_type": "yes_no",
         },
     ]),
     ("Upgrade Execution", [
+        {
+            "kpi": "Upgrade MOP Document Creation (Site/Device Specific)",
+            "kpi_detail": (
+                "Site/device-specific MOP including:\n"
+                "1. Rollback strategy (Backup and Restore)\n"
+                "2. Communication plan\n"
+                "3. Environment readiness\n"
+                "4. Test plan readiness\n"
+                "5. Pre checks and Post Checks\n"
+                "6. Integration/Third party dependencies (pre-requisites called out)"
+            ),
+            "metric": "(Number of deliverables/MOP peer reviewed and approved internally / Total deliverables) × 100% — SLA =100%",
+            "input_type": "percentage",
+        },
         {
             "kpi": "Upgrade Pre-check Validation",
             "kpi_detail": "Validation of pre-checks as per MOP.",
@@ -948,9 +1052,15 @@ _UPGRADE = [
     ("Overall Project", [
         {
             "kpi": "Escalations Count",
-            "kpi_detail": "All escalations to follow with RCA + Lessons Learnt.",
+            "kpi_detail": "All escalations to follow with RCA.",
             "metric": "# Number of escalations reported",
             "input_type": "count",
+        },
+        {
+            "kpi": "Risk & Lessons Learnt Register",
+            "kpi_detail": "Whether a Risk & Lessons Learnt register is maintained.",
+            "metric": "Yes/No",
+            "input_type": "yes_no",
         },
         {
             "kpi": "CSAT Score",
