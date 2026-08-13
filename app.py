@@ -15,6 +15,7 @@ from models import MetricEntry, Project, Engineer, db
 from metrics_config import (
     PROJECT_TYPES,
     PROJECT_TYPE_CONFIG,
+    KPI_SUMMARY_SLIDES,
     get_stages,
     get_stage_metrics,
 )
@@ -266,7 +267,11 @@ def delete_project(project_id):
 
 @app.route("/reference")
 def reference():
-    return render_template("reference.html", config=PROJECT_TYPE_CONFIG)
+    return render_template(
+        "reference.html",
+        config=PROJECT_TYPE_CONFIG,
+        slides=KPI_SUMMARY_SLIDES,
+    )
 
 
 # ── Dashboard API ────────────────────────────────────────────────────────────

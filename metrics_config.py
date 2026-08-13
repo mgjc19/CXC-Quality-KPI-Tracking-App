@@ -1106,3 +1106,305 @@ def get_stage_metrics(project_type, stage):
         if s_name == stage:
             return metrics
     return []
+
+
+# ── KPI Summary Slides (sourced from PSTG_Quality_KPI_Summary.pptx) ─────────
+
+KPI_SUMMARY_SLIDES = [
+    {
+        "title": "Brownfield (BF) Transformation",
+        "project_type": "Brown Field Transformation",
+        "key_targets": "Handover \u226598%  |  MOP Peer Review =100%  |  MW Success \u226599%  |  MW Failure \u22641%  |  Test Pass =100%",
+        "stages": [
+            {
+                "name": "Pre Engagement",
+                "kpis": [
+                    "Sales-to-Delivery Handover Index \u2265 98%",
+                    "7 components: solution map, timelines, SOW, assumptions, RACI, stakeholder map, account team details",
+                ],
+            },
+            {
+                "name": "Design Approach Planning",
+                "kpis": [
+                    "Adherence to Customer Approved Templates & Lab-Validated MOPs",
+                    "T-Schedule agreement (Yes/No \u2014 No is a risk)",
+                    "CSA & FSA signed off by customer (Yes/No)",
+                    "FSA Design Approval with documented exceptions (Yes/No)",
+                ],
+            },
+            {
+                "name": "Implementation & Migration Plan",
+                "kpis": [
+                    "Implementation Plan Completeness \u2265 target %",
+                    "MOP Internal Peer Review Compliance = 100%",
+                    "Pilot testing passed (Yes/No)",
+                    "NIPs peer reviewed; 1st-time-right internal/external \u2264 2 review cycles",
+                    "MOP 1st-time-right internal & external \u2264 2 cycles",
+                ],
+            },
+            {
+                "name": "Implementation & Migration",
+                "kpis": [
+                    "CAB/Customer Approval Compliance = 100%",
+                    "MW Success Rate (NIP & MOP) \u2265 99%",
+                    "MW Failure Rate (Cisco-Controlled) \u2264 1%",
+                    "Rollback Success Rate tracked",
+                    "Test Case Pass Rate = 100%",
+                    "T-Schedule Adherence (Yes/No)",
+                ],
+            },
+            {
+                "name": "Post Implementation",
+                "kpis": [
+                    "Customer sign-off on Knowledge Transfer (Yes/No)",
+                    "Design changes documented & signed off (Yes/No)",
+                ],
+            },
+            {
+                "name": "Overall Project",
+                "kpis": [
+                    "Escalations Count (with RCA for each)",
+                    "Risk & Lessons Learnt Register maintained (Yes/No)",
+                    "CSAT Score",
+                ],
+            },
+        ],
+    },
+    {
+        "title": "Migration Project",
+        "project_type": "Migration",
+        "key_targets": "Handover \u226598%  |  MOP Peer Review =100%  |  MW Success \u226599%  |  MW Failure \u22641%  |  Test Pass =100%",
+        "stages": [
+            {
+                "name": "Pre Engagement",
+                "kpis": [
+                    "Sales-to-Delivery Handover Index \u2265 98%",
+                    "7 components: solution map, timelines, assumptions, stakeholder contacts, SOW, RACI, account team",
+                ],
+            },
+            {
+                "name": "Migration Approach Planning",
+                "kpis": [
+                    "Adherence to Customer Approved Templates & Lab-Validated MOPs",
+                    "T-Schedule agreement (Yes/No \u2014 No is risk)",
+                    "Digitized Delivery (as-a-code) assessment completed",
+                    "Projected Automation Efficiency = projected hours saved / total hours scoped",
+                    "Like-for-Like Feature Parity assessment performed",
+                ],
+            },
+            {
+                "name": "Migration Plan",
+                "kpis": [
+                    "MOP Internal Peer Review Compliance = 100%",
+                    "1st-time-right MOP approval: internal & external",
+                    "Avg review cycles internal \u2264 2 | external \u2264 2",
+                ],
+            },
+            {
+                "name": "Migration & Testing",
+                "kpis": [
+                    "CAB/Customer Approval Compliance = 100%",
+                    "MW Success Rate as per approved MOP \u2265 99%",
+                    "MOP Failure Rate tracked",
+                    "Migration Window Failure Rate (Cisco-Controlled) \u2264 1%",
+                    "Rollback Success Rate tracked",
+                    "Test Case Pass Rate = 100%",
+                ],
+            },
+            {
+                "name": "Overall Project",
+                "kpis": [
+                    "Escalations Count (with RCA for each)",
+                    "Risk & Lessons Learnt Register (Yes/No)",
+                    "CSAT Score",
+                    "Migration Window Miss Rate (Cisco-Controlled) tracked",
+                    "Achieved Automation Efficiency = delivered hours / total hours scoped",
+                ],
+            },
+        ],
+    },
+    {
+        "title": "Matured Solutions PDI",
+        "project_type": "Matured PDI",
+        "key_targets": "Handover \u226598%  |  Design Peer Review =100%  |  MW Success \u226599%  |  MW Failure \u22641%  |  Test Pass =100%",
+        "stages": [
+            {
+                "name": "Pre Engagement",
+                "kpis": [
+                    "Sales-to-Delivery Handover Index \u2265 98%",
+                    "7 components: solution map, timelines, SOW & efforts, assumptions, RACI, stakeholder map, account team",
+                ],
+            },
+            {
+                "name": "Design",
+                "kpis": [
+                    "Reference architecture used (Yes/No)",
+                    "Workaround Coverage of identified limitations/feature gaps (%)",
+                    "Digitized Delivery assessment done (Yes/No)",
+                    "Projected Automation Efficiency tracked",
+                    "Adherence to standard design templates (%)",
+                    "Design Peer Review Compliance (%)",
+                    "1st-time-right design: internal & external",
+                ],
+            },
+            {
+                "name": "Implementation Planning",
+                "kpis": [
+                    "Implementation Plan Completeness (%)",
+                    "T-Schedule agreement (Yes/No)",
+                    "NIPs/MOPs internal review before customer submission (%)",
+                    "1st-time-right NIP/MOP: internal & external",
+                    "Avg review cycles \u2264 2 (internal & external)",
+                ],
+            },
+            {
+                "name": "Implementation & Testing",
+                "kpis": [
+                    "CAB/Customer Approval Compliance = 100%",
+                    "MW Success Rate \u2265 99%",
+                    "NIP/MOP Failure Rate tracked",
+                    "Migration Window Failure Rate (Cisco-Controlled) \u2264 1%",
+                    "Rollback Success Rate tracked",
+                    "Test Case Pass Rate = 100%",
+                ],
+            },
+            {
+                "name": "Post Implementation",
+                "kpis": [
+                    "Knowledge Transfer sign-off (Yes/No)",
+                    "Design changes documented & signed off (Yes/No)",
+                ],
+            },
+            {
+                "name": "Overall Project",
+                "kpis": [
+                    "Escalations Count (with RCA)",
+                    "Risk & Lessons Learnt Register (Yes/No)",
+                    "CSAT Score",
+                    "Adherence to T-Schedules (Yes/No)",
+                    "Achieved Automation Efficiency: delivered hours / total hours",
+                ],
+            },
+        ],
+    },
+    {
+        "title": "Emerging Tech PDI",
+        "project_type": "Emerging PDI",
+        "key_targets": "POC Feature Validation \u226590%  |  Design Peer Review =100%  |  CAB Compliance =100%  |  Test Pass \u2265target",
+        "stages": [
+            {
+                "name": "Pre Engagement",
+                "kpis": [
+                    "Feature Validation Score during POC \u2265 90%",
+                    "Effort Estimate validated & agreed (Yes/No)",
+                    "Handover Index: 10 components including BU/TAC interlock, MOM",
+                    "Requirement-to-Solution Gap Assessment performed (Yes/No)",
+                ],
+            },
+            {
+                "name": "Design",
+                "kpis": [
+                    "Feature limitations addressable via workaround (# count)",
+                    "BU commitment to address feature gaps within project timelines",
+                    "Adherence to customer-agreed templates (%)",
+                    "Design Peer Review Compliance (%)",
+                    "1st-time-right design: internal & external",
+                ],
+            },
+            {
+                "name": "Implementation Planning",
+                "kpis": [
+                    "Implementation Plan Completeness (%)",
+                    "T-Schedule agreement (Yes/No)",
+                    "NIPs peer reviewed; 1st-time-right internal & external",
+                    "Avg review cycles \u2264 2 (internal & external)",
+                ],
+            },
+            {
+                "name": "Implementation & Testing",
+                "kpis": [
+                    "Design Adherence Index (features implemented as designed / total critical features \u00d7 100)",
+                    "CAB/Customer Approval Compliance = 100%",
+                    "MW Success Rate (NIP) tracked",
+                    "NIP Failure Rate (deviations during implementation)",
+                    "Test Case Pass Rate post-implementation (%)",
+                ],
+            },
+            {
+                "name": "Post Implementation",
+                "kpis": [
+                    "Knowledge Transfer (Yes/No)",
+                    "Design changes documented & signed off (Yes/No)",
+                    "Day 2 handover (LCS/CMS etc., if applicable) (Yes/No)",
+                ],
+            },
+            {
+                "name": "Overall Project",
+                "kpis": [
+                    "Escalations Count (with RCA)",
+                    "Risk & Lessons Learnt Register (Yes/No)",
+                    "CSAT Score",
+                    "Adherence to T-Schedules (Yes/No)",
+                ],
+            },
+        ],
+    },
+    {
+        "title": "Upgrade Project",
+        "project_type": "Upgrade",
+        "key_targets": "Handover \u226598%  |  Pre/Post-checks =100%  |  CAB Compliance =100%  |  Test Pass =100%  |  Upgrade Failure \u2264target",
+        "stages": [
+            {
+                "name": "Pre Engagement",
+                "kpis": [
+                    "Handover Index \u2265 98%: reason for upgrade, proposed SW version, stakeholders, timelines, SOW/RACI, MOM",
+                    "Compatibility/dependency check reviewed & shared with customer (Yes/No)",
+                    "SW & HW compatibility / inter-dependency validated (Yes/No)",
+                    "Integration/Third-party dependencies reviewed (Yes/No)",
+                ],
+            },
+            {
+                "name": "Upgrade Strategy",
+                "kpis": [
+                    "Bug Scrub report reviewed by account SME (Yes/No)",
+                    "Bug Scrub report reviewed with customer (Yes/No)",
+                    "Workaround coverage for critical bugs (Yes/No)",
+                    "Upgrade Strategy Completeness Checklist = 100%",
+                    "Upgrade MOP template peer reviewed = 100%",
+                    "Lab validation performed (Yes/No)",
+                    "1st-time-right MOP: internal & external; avg review cycles \u2264 2",
+                    "Proactive TAC/BU alignment (Yes/No)",
+                ],
+            },
+            {
+                "name": "Upgrade Execution",
+                "kpis": [
+                    "Site/device-specific MOP created & peer reviewed = 100%",
+                    "Pre-check success rate = 100%",
+                    "CAB/Customer Approval Compliance = 100%",
+                    "Upgrade Success Rate as per MOP (%)",
+                    "MOP Failure Rate tracked",
+                    "Rollback Success Rate tracked",
+                    "Test Case Pass Rate = 100%",
+                ],
+            },
+            {
+                "name": "Post Upgrade",
+                "kpis": [
+                    "Post-check success rate = 100% (as per MOP)",
+                    "Knowledge Transfer for new feature set (Yes/No)",
+                ],
+            },
+            {
+                "name": "Overall Project",
+                "kpis": [
+                    "Escalations Count (with RCA)",
+                    "Risk & Lessons Learnt Register (Yes/No)",
+                    "CSAT Score",
+                    "Upgrade Failure Rate (Cisco-Controlled) tracked",
+                    "Adherence to T-Schedules (Yes/No)",
+                ],
+            },
+        ],
+    },
+]

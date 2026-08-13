@@ -13,6 +13,51 @@
     </p>
 </div>
 
+<!-- ── KPI Summary Slides ─────────────────────────────────────────────────── -->
+
+<div class="slide-tab-bar">
+    {% for slide in slides %}
+    <button class="slide-tab {% if loop.first %}active{% endif %}"
+            onclick="showSlide({{ loop.index0 }}, this)">
+        <i class="fas fa-layer-group"></i> {{ slide.title }}
+    </button>
+    {% endfor %}
+</div>
+
+{% for slide in slides %}
+<div class="kpi-slide {% if loop.first %}active{% endif %}" id="slide-{{ loop.index0 }}">
+    <div class="slide-header">
+        <h3 class="slide-title">
+            <i class="fas fa-clipboard-check"></i>
+            Overview &amp; Controls : {{ slide.title }} – KPI Summary
+        </h3>
+    </div>
+
+    <div class="slide-stages">
+        {% for stage in slide.stages %}
+        <div class="slide-stage-card">
+            <div class="slide-stage-name">{{ stage.name }}</div>
+            <ul class="slide-kpi-list">
+                {% for kpi in stage.kpis %}
+                <li>{{ kpi }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="slide-targets-banner">
+        <i class="fas fa-bullseye"></i>
+        <span class="slide-targets-label">Key Targets:</span>
+        {{ slide.key_targets }}
+    </div>
+</div>
+{% endfor %}
+
+<!-- ── Detailed Metrics Tables ────────────────────────────────────────────── -->
+
+<h3 class="section-divider"><i class="fas fa-table"></i> Detailed KPI Definitions</h3>
+
 {% for ptype, stage_list in config.items() %}
 <div class="card reference-type-card">
     <button class="accordion-header" onclick="toggleAccordion(this)">
@@ -61,6 +106,13 @@
 function toggleAccordion(header) {
     header.nextElementSibling.classList.toggle('open');
     header.querySelector('.accordion-icon').classList.toggle('rotated');
+}
+
+function showSlide(idx, btn) {
+    document.querySelectorAll('.kpi-slide').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.slide-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('slide-' + idx).classList.add('active');
+    btn.classList.add('active');
 }
 </script>
 {% endblock %}
