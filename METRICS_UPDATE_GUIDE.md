@@ -209,8 +209,8 @@ PROJECT_TYPE_CONFIG = {
 
 2. **If the app is not running**, start it:
    ```bash
-   cd "/Users/mgjc/Desktop/Projects/AI/CXC Quality KPI Tracking App"
-   source venv/bin/activate && python app.py
+   cd "/Users/mgjc/Desktop/Projects/AI/CXC-Quality-KPI-Tracking-App"
+   ./start.sh
    ```
 
 3. **Verify** by going to the **References** page (`http://127.0.0.1:5050/reference`) — all metrics are listed there.
